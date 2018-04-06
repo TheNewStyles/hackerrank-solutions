@@ -38,7 +38,7 @@
 **/
 function getSecondLargest(nums) {
     // Complete the function
-    let numsSort = nums.sort();
+    let numsSort = nums.sort(function(a, b){return a-b});
     let uniqueArr = [];
 
     numsSort.forEach(function(element) {
