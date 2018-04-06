@@ -1,6 +1,6 @@
-<h1 align="center">
-    TheNewStyle's Solutions to problems on HackerRank.
-</h1>
+<h2 align="center">
+    TheNewStyle's HackerRank Solutions.
+</h2>
 
 [CopyrightLicense]:./license.md
 <p align="center">
