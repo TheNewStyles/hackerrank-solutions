@@ -1,6 +1,6 @@
-<p align="center">
-    TheNewStyle's Solutions to problems on HackerRank.
-</p>
+<h2 align="center">
+    TheNewStyle's HackerRank Solutions.
+</h2>
 
 [CopyrightLicense]:./license.md
 <p align="center">
@@ -9,7 +9,6 @@
 
 <p align="center">
 	<img src="https://img.shields.io/badge/Language-JS/CSharp-orange.svg">
-	<img src="https://img.shields.io/badge/Latest%20Update-04/05/2017-brightgreen.svg">
 </p>
 
 
