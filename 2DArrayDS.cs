@@ -81,17 +81,13 @@ using System.Text;
 using System;
 
 class Solution {
-
     // Complete the array2D function below.
     static int array2D(int[][] arr) {
         var row1 = new List<int>();
-        //loop through 2 times less than the length of the array
-            //loop through row 1 - get all values
-                //add to first row list
-            //loop through row 2 - get all but the first and last
-                //add to second row list
-            //loop through row 3 - get all values       
-                //add to third row list
+        var row2 = new List<int>();
+        var row3 = new List<int>();  
+        var biggestSum = 0;
+
         for (var i=0; i<arr[0].Length; i++)
         {           
             for (var j=0; j<arr[i].Length; j++)
@@ -99,22 +95,92 @@ class Solution {
                 if (i < arr[0].Length - 2)
                 {
                     row1.Add(arr[i][j]);
-                }                
+                }   
+                if (!IsEdge( i, j, arr))
+                {
+                    row2.Add(arr[i][j]);
+                }
+                
+                if (i >= 2)
+                {
+                    row3.Add(arr[i][j]);
+                }
             }
         }
         
-        foreach(var value in row1) 
-        {
-            Console.Write(value);
-        }
-        
-        //now that you have all the numbers you need
-            //loop through 2 times less than lenght of row1
-                //row1.Skip(i).Take(i+3)
-                //row2.Take(i)
-                //row3.Skip(i).Take(i+3)
-        return 0;
+        var row1Chunked = ChunkBy(row1, 6);
+        var row2Chunked = ChunkBy(row2, 4);
+        var row3Chunked = ChunkBy(row3, 6);   
+        var row1Sums = new List<int>();
+        var row2Singles = new List<int>();
+        var row3Sums = new List<int>();
                 
+        for (var i=0; i<row1Chunked.Count; i++)
+        {
+            for (var j=0; j<row1Chunked[i].Count-2; j++)
+            {
+                var top3 = row1Chunked[i].Skip(j).Take(3);
+                var top3Sum = 0;
+                foreach(var value in top3)
+                {
+                    top3Sum += value;                  
+                }
+                row1Sums.Add(top3Sum);
+            }
+            
+            
+            for (var j=0; j<row2Chunked[i].Count; j++)
+            {
+                var middle1 = row2Chunked[i][j];
+                row2Singles.Add(middle1);
+            }
+            
+            
+            for (var j=0; j<row1Chunked[i].Count-2; j++)
+            {
+                var bottom3 = row3Chunked[i].Skip(j).Take(3);
+                var bottom3Sum = 0;
+                foreach(var value in bottom3)
+                {
+                    bottom3Sum += value;
+                }
+                row3Sums.Add(bottom3Sum);                
+            }            
+        }        
+       
+        for (var i=0; i<row1Sums.Count; i++)
+        {
+            if (i == 0)
+            {                
+                biggestSum = row1Sums[i] + row2Singles[i] + row3Sums[i];
+            }
+            
+            var hourGlassSum = row1Sums[i] + row2Singles[i] + row3Sums[i];
+            if (hourGlassSum >= biggestSum)
+            {
+                biggestSum = hourGlassSum;                
+            }
+        }  
+
+        return biggestSum;                
+    }
+    
+    public static List<List<T>> ChunkBy<T>(List<T> source, int chunkSize) 
+    {
+        return source
+            .Select((x, i) => new { Index = i, Value = x })
+            .GroupBy(x => x.Index / chunkSize)
+            .Select(x => x.Select(v => v.Value).ToList())
+            .ToList();
+    }
+    
+    static bool IsEdge(int i, int j, int[][] arr)
+    {
+        if (i == 0 || i == arr[i].Length-1 || j == 0 || j == arr[j].Length-1)
+        {
+            return true;
+        }
+        return false;
     }
 
     static void Main(string[] args) {
