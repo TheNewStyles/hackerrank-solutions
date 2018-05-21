@@ -44,23 +44,16 @@ class Solution {
 
     private static void LeftShift(int d, int[] arr)
     {
-         var shift = d;
-         var shifted = new int[arr.Length];         
-         var temp =  new int[arr.Length];
-         var counter = 0;
-         Array.Copy(arr, temp, arr.Length);
-        
-        while (counter < arr.Length-1)
-        {
-            for (int i = 0; i < arr.Length; i++) {
-                shifted[(i+shift) % shifted.Length] = temp[i];
-            }   
-            Array.Copy(shifted, temp, shifted.Length);
-            counter++;
-       }
+        var shifted = new int[arr.Length]; 
+        var shiftIndex = (shifted.Length-1 * d) % shifted.Length;
+        shifted[(shifted.Length-1 * d) % shifted.Length] = arr[0];      
 
-        PrintArr(temp);
-    }
+        for (var i=1; i < arr.Length; i++)
+        {
+            shifted[(shiftIndex + i) % shifted.Length] = arr[i];
+        }
+        PrintArr(shifted);
+    }    
     
     private static void PrintArr(int[] arr)
     {
